@@ -4,6 +4,8 @@
 
 **Potato Deals** is a Decky Loader plugin built specifically for Steam Deck Game Mode. It helps you track what matters most in your Steam Wishlist—prices, discounts, ratings, and active sales—without leaving the Deck UI.
 
+### 📥 [Download Latest Version (v3.1.14)](https://github.com/openanton/potato-deals/raw/main/potato-deals-v3.1.14.zip)
+
 Designed for the way people actually use Steam Deck: quick browsing, fast decisions, and clean UI. It stays lightweight, works inside Game Mode, and keeps everything one tap away.
 
 ## 🌟 Features
@@ -23,7 +25,7 @@ Designed for the way people actually use Steam Deck: quick browsing, fast decisi
 1.  Open **Decky Loader** on your Steam Deck.
 2.  Navigate to **Settings** -> **Developer**.
 3.  Choose **Install from ZIP**.
-4.  Provide the link to the latest release `.zip` file from the [Releases](https://github.com/openanton/analys/releases) page (or download and select it manually).
+4.  Provide the link to the latest release `.zip` file from the [Releases](https://github.com/openanton/potato-deals/releases) page (or download and select it manually).
 
 ## 🔄 Updates & Uninstallation
 
