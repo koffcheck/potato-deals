@@ -1,0 +1,24 @@
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+dist/
+node_modules/
+package-lock.json
+*.zip
+!potato-deals-v3.1.14.zip
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# Project specific junk
+analys/
+review_*/
+release_*/
+_research_*/
+potato_data.json

@@ -1,0 +1,16 @@
+{
+  "name": "potato-deals",
+  "version": "3.1.14",
+  "author": "q2",
+  "flags": [],
+  "api_version": 1,
+  "publish": {
+    "tags": [
+      "wishlist",
+      "deals",
+      "prices"
+    ],
+    "description": "Stable Steam wishlist price monitor for Decky Loader.",
+    "image": "assets/icon.svg"
+  }
+}
