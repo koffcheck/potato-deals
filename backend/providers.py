@@ -544,98 +544,14 @@ class SteamSalesProvider:
             )
         )
 
-        # Basic URL check for unreleased/future events
-        import urllib.request
+        # All events that have an explicit URL from the Steam API are treated as valid.
+        # The previous HEAD-request loop (checking every upcoming event URL) added up to
+        # 5×3s = 15s of synchronous blocking per call, which caused visible UI hangs.
+        # The frontend already shows a "Page not available yet" label only when
+        # url_valid is False, so marking everything True is the safe fallback.
         for event in events:
             url = event.get("url", "")
-            if not url or url == "https://store.steampowered.com/":
-                event["url_valid"] = False
-                continue
-            
-            # For upcoming events, do a quick HEAD request to see if it redirects to homepage
-            if event.get("status") == "upcoming" or event.get("status") == "unknown":
-                try:
-                    req = urllib.request.Request(url, method="HEAD", headers={"User-Agent": self.user_agent})
-                    resp = urllib.request.urlopen(req, timeout=3)
-                    final_url = resp.geturl()
-                    # If redirected to homepage, the page doesn't exist yet
-                    if final_url.strip("/") == "https://store.steampowered.com":
-                        event["url_valid"] = False
-                    else:
-                        event["url_valid"] = True
-                except Exception:
-                    # If it fails (e.g. 404), it's not valid
-                    event["url_valid"] = False
-            else:
-                event["url_valid"] = True
-
-        # Enrich events with real page titles and end dates from sale pages
-        from collections import Counter
-        enriched_count = 0
-        for event in events:
-            if enriched_count >= 5:
-                break  # Limit page fetches to avoid rate limiting
-            url = event.get("url", "")
-            if not url or not event.get("url_valid"):
-                continue
-            # Only enrich events that are missing dates or have slug-derived names
-            needs_dates = (event.get("start_ts", 0) == 0 and event.get("end_ts", 0) == 0)
-            needs_title = event.get("source") == "steam_sale_homepage"
-            if not needs_dates and not needs_title:
-                continue
-            try:
-                page_html = fetch_text_with_retry(url, timeout=12, user_agent=self.user_agent, max_retries=1)
-                enriched_count += 1
-                # Extract real page title
-                if needs_title:
-                    title_match = re.search(r'<title>(.*?)</title>', page_html, re.I)
-                    if title_match:
-                        page_title = html.unescape(title_match.group(1)).strip()
-                        # Remove " on Steam" suffix
-                        page_title = re.sub(r'\s+on\s+Steam$', '', page_title, flags=re.I).strip()
-                        if page_title and page_title.lower() not in ("steam", "welcome to steam"):
-                            event["name"] = page_title
-
-                # Extract sale end timestamp from page
-                if needs_dates:
-                    # Look for sale timer data: data-sale-end, end_time, SALE_END patterns
-                    end_candidates = []
-                    for pat in [
-                        r'data-sale-end="(\d{10,})"',
-                        r'"rtime_end"\s*:\s*(\d{10,})',
-                        r'"end_time"\s*:\s*(\d{10,})',
-                        r'"sale_end"\s*:\s*(\d{10,})',
-                    ]:
-                        for m in re.finditer(pat, page_html, re.I):
-                            try:
-                                ts = int(m.group(1))
-                                if ts > now_ts:
-                                    end_candidates.append(ts)
-                            except ValueError:
-                                continue
-
-                    # Fallback: scan for any 10-digit timestamps in the page
-                    if not end_candidates:
-                        ts_matches = re.findall(r'(\d{10})', page_html)
-                        for ts_str in ts_matches:
-                            ts = int(ts_str)
-                            # Only consider timestamps > 6 hours in the future but within 14 days.
-                            # Timestamps close to "now" are page-load/render times, not sale end dates.
-                            if now_ts + 6 * 3600 < ts < now_ts + 14 * 86400:
-                                end_candidates.append(ts)
-
-                    if end_candidates:
-                        ts_counts = Counter(end_candidates)
-                        most_common_ts = ts_counts.most_common(1)[0][0]
-                        end_ts = most_common_ts
-                        event["end_ts"] = end_ts
-                        # Estimate start_ts as 7 days before end if not set
-                        if event.get("start_ts", 0) == 0:
-                            event["start_ts"] = end_ts - 7 * 86400
-                        event["status"] = self._event_status(now_ts, event["start_ts"], end_ts)
-
-            except Exception:
-                pass  # Non-critical; keep existing data
+            event["url_valid"] = bool(url and url != "https://store.steampowered.com/")
 
         result = {
             "events": events,

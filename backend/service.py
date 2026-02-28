@@ -759,7 +759,7 @@ class PotatoDealsService:
 
     def get_bootstrap(self) -> Dict[str, Any]:
         data = self._load()
-        
+
         settings = data.get("settings", {})
         steam_id = settings.get("steam_id", "")
         if not steam_id or not str(steam_id).strip():
@@ -777,22 +777,18 @@ class PotatoDealsService:
                 data["settings"] = settings
                 self._save(data)
 
-        # Auto-fetch exchange rates if missing so price conversion works on first load
-        rates_cache = data.get("rates_cache", {})
-        if not rates_cache.get("rates"):
-            try:
-                self.update_currency_rates(force=False)
-                data = self._load()
-            except Exception:
-                pass
-                
+        # NOTE: currency rates and sales events are intentionally NOT fetched here.
+        # Fetching them on every panel open was a major source of first-open hangs
+        # (up to 2+ minutes on slow networks). Rates are loaded lazily via
+        # update_currency_rates(); sales are fetched by the frontend when it switches
+        # to the Sales tab (separate get_sales_events action).
         games = [self._build_game_view(game, data) for game in data["wishlist"]]
         return {
             "settings": data["settings"],
             "meta": data["meta"],
             "rates_cache": data["rates_cache"],
             "games": games,
-            "sales": self.get_sales_events(),
+            "sales": {},
         }
 
     def ping(self) -> Dict[str, Any]:
@@ -919,15 +915,25 @@ class PotatoDealsService:
                 auto_price_error = f"auto_price_update_failed:{err.__class__.__name__}:{err}"
 
         saved = self._save(data)
-        bootstrap = self.get_bootstrap()
-        bootstrap["sync_status"] = status
-        if status != "ok":
-            detail = str(getattr(self.wishlist_provider, "last_error_detail", "") or "").strip()
-            if detail:
-                bootstrap["sync_status_detail"] = detail
+
+        # Build the response from already-loaded data instead of calling get_bootstrap()
+        # again. The double get_bootstrap() call was adding a full extra round-trip
+        # (including sales network fetch) after every wishlist sync.
+        games = [self._build_game_view(game, data) for game in data["wishlist"]]
+        bootstrap = {
+            "settings": data["settings"],
+            "meta": data["meta"],
+            "rates_cache": data["rates_cache"],
+            "games": games,
+            "sales": {},
+            "sync_status": status,
+            "wishlist_count": len(saved["wishlist"]),
+        }
+        detail = str(getattr(self.wishlist_provider, "last_error_detail", "") or "").strip()
+        if status != "ok" and detail:
+            bootstrap["sync_status_detail"] = detail
         elif auto_price_error:
             bootstrap["sync_status_detail"] = auto_price_error
-        bootstrap["wishlist_count"] = len(saved["wishlist"])
         return bootstrap
 
     def update_prices(self) -> Dict[str, Any]:

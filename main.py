@@ -353,9 +353,10 @@ class Plugin:
         raise ValueError("unknown_action")
 
     async def _run_dispatch(self, action: str, payload: Dict[str, Any]) -> Dict[str, Any]:
-        # Keep backend calls on the main plugin event loop for maximum compatibility
-        # with Decky environments where thread workers can stall IPC.
-        return self._dispatch_action(action, payload)
+        # Run synchronous (blocking HTTP / disk) work in a thread pool so the
+        # Decky asyncio event loop stays responsive while network I/O is in progress.
+        import asyncio
+        return await asyncio.to_thread(self._dispatch_action, action, payload)
 
     async def _safe(self, action: str, payload: Optional[Dict[str, Any]]) -> Dict[str, Any]:
         normalized_payload = payload or {}

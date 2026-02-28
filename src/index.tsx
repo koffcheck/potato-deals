@@ -272,26 +272,18 @@ const sanitizeStoreUrl = (url: string) => {
 const openSaleUrl = (url: string) => {
     const safeUrl = sanitizeStoreUrl(url);
     try {
-        // Try Decky/Steam Deck native method first
         const sc = (window as any).SteamClient;
-        if (sc?.System?.OpenInSystemBrowser) {
-            sc.System.OpenInSystemBrowser(safeUrl);
-            return;
-        }
+        // Beta UI may expose Browser.OpenURL instead of System.OpenInSystemBrowser
+        if (sc?.Browser?.OpenURL) { sc.Browser.OpenURL(safeUrl); return; }
+        if (sc?.System?.OpenInSystemBrowser) { sc.System.OpenInSystemBrowser(safeUrl); return; }
         // Try Steam internal navigation for store URLs
         if (safeUrl.includes('store.steampowered.com')) {
             const nav = (window as any).SteamUIStore?.WindowStore?.SteamUIWindows?.[0];
-            if (nav?.NavigateToSteamURL) {
-                nav.NavigateToSteamURL(safeUrl);
-                return;
-            }
+            if (nav?.NavigateToSteamURL) { nav.NavigateToSteamURL(safeUrl); return; }
         }
         // Fallback: try Navigation API
         const nav = (window as any).Navigation;
-        if (nav?.NavigateToExternalWeb) {
-            nav.NavigateToExternalWeb(safeUrl);
-            return;
-        }
+        if (nav?.NavigateToExternalWeb) { nav.NavigateToExternalWeb(safeUrl); return; }
         // Last resort: window.open
         window.open(safeUrl, "_blank");
     } catch (e) {
@@ -780,7 +772,15 @@ const PotatoDeals = () => {
         const sid = steamId.trim();
         try {
             if (sid) await saveSettings({ steam_id: sid });
-            const raw = await (call as any)("sync_wishlist", { steam_id: sid || undefined });
+            // Timeout guard: if backend doesn't respond in 120s, exit loading state.
+            const SYNC_TIMEOUT_MS = 120_000;
+            const timeoutPromise = new Promise<never>((_, reject) =>
+                setTimeout(() => reject(new Error("timeout")), SYNC_TIMEOUT_MS)
+            );
+            const raw = await Promise.race([
+                (call as any)("sync_wishlist", { steam_id: sid || undefined }),
+                timeoutPromise,
+            ]);
             const data = unwrap(raw);
             if (!data) { setStatusMsg("⚠️ Backend Error"); setLoading(false); return; }
 
@@ -791,9 +791,13 @@ const PotatoDeals = () => {
             }
             const txt = translateSyncStatus(data.sync_status || "", data.sync_status_detail || "", language);
             setStatusMsg(txt || `${t("msg_loaded", language)} ${data.games?.length ?? 0}`);
-        } catch (e) {
+        } catch (e: any) {
             console.error("[PD] sync", e);
-            setStatusMsg(t("msg_sync_net", language));
+            if (e?.message === "timeout") {
+                setStatusMsg(t("msg_sync_net", language) + " (timeout)");
+            } else {
+                setStatusMsg(t("msg_sync_net", language));
+            }
         }
         setLoading(false);
     };

@@ -464,10 +464,8 @@ class WishlistProvider:
         official_games, official_status = self.fetch_official_wishlist_without_key(steam_id)
         official_detail = self.last_error_detail
         if official_status == "ok":
-            # Public might contain richer titles; merge when possible.
-            retry_public_games, retry_public_status = self.fetch_public_wishlist(steam_id)
-            if retry_public_status == "ok" and retry_public_games:
-                return self._merge_wishlists(official_games, retry_public_games), "ok"
+            # Return official results directly; avoid a redundant public retry
+            # that was adding a 6th sequential HTTP request in the worst case.
             self._set_error_detail(official_detail)
             return official_games, official_status
         if official_status == "wishlist_rate_limited":
