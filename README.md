@@ -1,45 +1,52 @@
-# Potato Deals 🥔
+# Potato Deals
 
 ![Potato Deals Banner](assets/banner.jpg)
 
-**Potato Deals** is a Decky Loader plugin built specifically for Steam Deck Game Mode. It helps you track what matters most in your Steam Wishlist - prices, discounts, ratings, and active sales - without leaving the Deck UI.
+Potato Deals is a Decky Loader plugin for Steam Deck Game Mode. It shows Steam Wishlist prices, discounts, ratings, and sale events directly inside the Deck UI.
 
-### 📥 [Download Latest Version (v3.1.15)](https://github.com/koffcheck/potato-deals/releases/download/v3.1.15/potato-deals-v3.1.15.zip)
+## Download
 
-Designed for the way people actually use Steam Deck: quick browsing, fast decisions, and clean UI. It stays lightweight, works inside Game Mode, and keeps everything one tap away.
+**Download only the release ZIP from GitHub Releases.**
 
-## 🌟 Features
+- [Download Potato Deals v3.1.15 (.zip)](https://github.com/koffcheck/potato-deals/releases/download/v3.1.15/potato-deals-v3.1.15.zip)
+- [Open the latest release](https://github.com/koffcheck/potato-deals/releases/latest)
+- In the `Assets` section, download the file named `potato-deals-vX.Y.Z.zip`
 
--   **Wishlist Viewer in Game Mode** - Browse your Steam Wishlist directly on Steam Deck.
--   **Powerful Sorting**:
-    -   By discount size
-    -   By Metacritic score
-    -   By price (low → high / high → low)
-    -   By alphabet (A → Z)
-    -   By date added
--   **Regional Store Awareness** - Shows prices and active sales for your Steam account store region (with support for manual override when needed).
--   **Sales Tracker** - View ongoing Steam events/sales and track their progress (time elapsed from start to end).
+**Do not download these files:**
 
-## 🚀 Installation
+- `Source code (zip)`
+- `Source code (tar.gz)`
 
-1.  Open **Decky Loader** on your Steam Deck.
-2.  Navigate to **Settings** -> **Developer**.
-3.  Choose **Install from ZIP**.
-4.  Provide the link to the latest release `.zip` file from the [Releases](https://github.com/koffcheck/potato-deals/releases) page (or download and select it manually).
+GitHub creates those `Source code` archives automatically. They are not installable in Decky Loader.
 
-## 🔄 Updates & Uninstallation
+Quick rule: if the file does not start with `potato-deals-v` and end with `.zip`, it is the wrong file.
 
--   **Update**: Download the latest version from GitHub and repeat the installation steps.
--   **Uninstall**: Use the Decky Loader plugin manager to remove Potato Deals.
+## Installation
 
-## 📝 Known Limitations
+1. Open Decky Loader on your Steam Deck.
+2. Go to `Settings -> Developer`.
+3. Select `Install from ZIP`.
+4. Choose the downloaded `potato-deals-vX.Y.Z.zip` file.
 
--   Regional prices depend on the currency configuration in plugin settings.
--   Requires an active internet connection to fetch real-time data.
+## Features
 
-## 📄 License
+- Browse your Steam Wishlist in Game Mode.
+- Sort by discount, Metacritic score, price, alphabet, or date added.
+- Use Steam store region settings with manual override support.
+- Track active Steam sale events inside the plugin.
 
-This project is licensed under the GPL-3.0 License - see the [LICENSE](LICENSE) file for details.
+## Updates
 
----
-*Built with ❤️ for the Steam Deck community.*
+To update Potato Deals, download the newest release ZIP from GitHub Releases and install it again through Decky Loader.
+
+## Support
+
+If something does not work, open an issue and include:
+
+- plugin version
+- selected Steam store region
+- a short description of the problem
+
+## License
+
+This project is licensed under the GPL-3.0 License. See [LICENSE](LICENSE) for details.
