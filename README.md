@@ -2,50 +2,82 @@
 
 ![Potato Deals Banner](assets/banner.jpg)
 
-Potato Deals is a Decky Loader plugin for Steam Deck Game Mode. It shows Steam Wishlist prices, discounts, ratings, and sale events directly inside the Deck UI.
+Potato Deals helps you check Steam Wishlist prices and sales directly on your Steam Deck.
+
+No browser tabs, no searching, no leaving Game Mode.
 
 ## Download
 
-**Download only the release ZIP from GitHub Releases.**
+> **Download this file:** `potato-deals-v3.1.15.zip`
+>
+> Do not download `Source code (zip)` or `Source code (tar.gz)`.
+
+### Get the Plugin
 
 - [Download Potato Deals v3.1.15 (.zip)](https://github.com/koffcheck/potato-deals/releases/download/v3.1.15/potato-deals-v3.1.15.zip)
 - [Open the latest release](https://github.com/koffcheck/potato-deals/releases/latest)
-- In the `Assets` section, download the file named `potato-deals-vX.Y.Z.zip`
 
-**Do not download these files:**
+When the release page opens, look for the `Assets` section and download the file named like this:
+
+- `potato-deals-vX.Y.Z.zip`
+
+**Do not use these files:**
 
 - `Source code (zip)`
 - `Source code (tar.gz)`
 
-GitHub creates those `Source code` archives automatically. They are not installable in Decky Loader.
+Those are automatic GitHub files. They are not the plugin.
 
-Quick rule: if the file does not start with `potato-deals-v` and end with `.zip`, it is the wrong file.
+## Why People Use It
 
-## Installation
+- See wishlist prices without leaving Steam Deck Game Mode.
+- Spot discounts faster.
+- Check ratings and sale events in one place.
+
+## Install in 30 Seconds
+
+Install takes about 30 seconds:
 
 1. Open Decky Loader on your Steam Deck.
 2. Go to `Settings -> Developer`.
-3. Select `Install from ZIP`.
-4. Choose the downloaded `potato-deals-vX.Y.Z.zip` file.
+3. Tap `Install from ZIP`.
+4. Pick the file `potato-deals-vX.Y.Z.zip`.
 
-## Features
+## What You Get
 
-- Browse your Steam Wishlist in Game Mode.
-- Sort by discount, Metacritic score, price, alphabet, or date added.
-- Use Steam store region settings with manual override support.
-- Track active Steam sale events inside the plugin.
+- Your Steam Wishlist inside Game Mode.
+- Sorting by discount, price, rating, alphabet, and date added.
+- Steam store region support.
+- Active Steam sales in one place.
+
+## Highlights
+
+- Wishlist view built for Steam Deck.
+- Fast sorting for deal hunting.
+- Region-aware price support.
+- Sale tracking inside the plugin UI.
 
 ## Updates
 
-To update Potato Deals, download the newest release ZIP from GitHub Releases and install it again through Decky Loader.
+To update Potato Deals, download the newest release ZIP and install it again through Decky Loader.
+
+## FAQ
+
+**Which file should I download?**
+
+Download the file named `potato-deals-vX.Y.Z.zip` from the release `Assets`.
+
+**Why does GitHub show other ZIP files?**
+
+GitHub automatically creates `Source code` archives. They are for code, not for installation.
+
+**Where do I install it?**
+
+In Decky Loader: `Settings -> Developer -> Install from ZIP`.
 
 ## Support
 
-If something does not work, open an issue and include:
-
-- plugin version
-- selected Steam store region
-- a short description of the problem
+If something does not work, open an issue and include your plugin version, selected Steam store region, and a short description of the problem.
 
 ## License
 
