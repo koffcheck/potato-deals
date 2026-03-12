@@ -1,4 +1,4 @@
-# Potato Deals
+# Potato Deals 🥔
 
 ![Potato Deals Banner](assets/banner.jpg)
 
@@ -6,7 +6,7 @@ Potato Deals helps you check Steam Wishlist prices and sales directly on your St
 
 No browser tabs, no searching, no leaving Game Mode.
 
-## Download
+## Download 📥
 
 > **Download this file:** `potato-deals-v3.1.15.zip`
 >
@@ -28,13 +28,13 @@ When the release page opens, look for the `Assets` section and download the file
 
 Those are automatic GitHub files. They are not the plugin.
 
-## Why People Use It
+## Why People Use It ✨
 
 - See wishlist prices without leaving Steam Deck Game Mode.
 - Spot discounts faster.
 - Check ratings and sale events in one place.
 
-## Install in 30 Seconds
+## Install in 30 Seconds 🚀
 
 Install takes about 30 seconds:
 
@@ -43,25 +43,25 @@ Install takes about 30 seconds:
 3. Tap `Install from ZIP`.
 4. Pick the file `potato-deals-vX.Y.Z.zip`.
 
-## What You Get
+## What You Get 🎮
 
 - Your Steam Wishlist inside Game Mode.
 - Sorting by discount, price, rating, alphabet, and date added.
 - Steam store region support.
 - Active Steam sales in one place.
 
-## Highlights
+## Highlights ⭐
 
 - Wishlist view built for Steam Deck.
 - Fast sorting for deal hunting.
 - Region-aware price support.
 - Sale tracking inside the plugin UI.
 
-## Updates
+## Updates 🔄
 
 To update Potato Deals, download the newest release ZIP and install it again through Decky Loader.
 
-## FAQ
+## FAQ ❓
 
 **Which file should I download?**
 
@@ -75,10 +75,10 @@ GitHub automatically creates `Source code` archives. They are for code, not for 
 
 In Decky Loader: `Settings -> Developer -> Install from ZIP`.
 
-## Support
+## Support 🛟
 
 If something does not work, open an issue and include your plugin version, selected Steam store region, and a short description of the problem.
 
-## License
+## License 📄
 
 This project is licensed under the GPL-3.0 License. See [LICENSE](LICENSE) for details.
